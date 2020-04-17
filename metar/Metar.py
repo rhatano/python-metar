@@ -1086,49 +1086,50 @@ class Metar(object):
         Return a human-readable version of the decoded report.
         """
         lines = []
-        lines.append("station: %s" % self.station_id)
+        lines.append("METAR: " + self.code)
+        lines.append("Station: %s" % self.station_id)
         if self.type:
-            lines.append("type: %s" % self.report_type())
+            lines.append("Type: %s" % self.report_type())
         if self.time:
-            lines.append("time: %s" % self.time.ctime())
+            lines.append("Time: %s" % self.time.ctime())
         if self.temp:
-            lines.append("temperature: %s" % self.temp.string("C"))
+            lines.append("Temperature: %s" % self.temp.string("C"))
         if self.dewpt:
-            lines.append("dew point: %s" % self.dewpt.string("C"))
+            lines.append("Dew Point: %s" % self.dewpt.string("C"))
         if self.wind_speed:
-            lines.append("wind: %s" % self.wind())
+            lines.append("Wind: %s" % self.wind())
         if self.wind_speed_peak:
-            lines.append("peak wind: %s" % self.peak_wind())
+            lines.append("Peak Wind: %s" % self.peak_wind())
         if self.wind_shift_time:
-            lines.append("wind shift: %s" % self.wind_shift())
+            lines.append("Wind Shift: %s" % self.wind_shift())
         if self.vis:
-            lines.append("visibility: %s" % self.visibility())
+            lines.append("Visibility: %s" % self.visibility())
         if self.runway:
-            lines.append("visual range: %s" % self.runway_visual_range())
+            lines.append("Visual Range: %s" % self.runway_visual_range())
         if self.press:
-            lines.append("pressure: %s" % self.press.string("mb"))
+            lines.append("Pressure: %s" % self.press.string("mb"))
         if self.weather:
-            lines.append("weather: %s" % self.present_weather())
+            lines.append("Weather: %s" % self.present_weather())
         if self.sky:
-            lines.append("sky: %s" % self.sky_conditions("\n     "))
+            lines.append("Sky: %s" % self.sky_conditions("\n     "))
         if self.press_sea_level:
-            lines.append("sea-level pressure: %s" % self.press_sea_level.string("mb"))
+            lines.append("Sea-level Pressure: %s" % self.press_sea_level.string("mb"))
         if self.max_temp_6hr:
-            lines.append("6-hour max temp: %s" % str(self.max_temp_6hr))
+            lines.append("6-hour Max Temp: %s" % str(self.max_temp_6hr))
         if self.max_temp_6hr:
-            lines.append("6-hour min temp: %s" % str(self.min_temp_6hr))
+            lines.append("6-hour Min Temp: %s" % str(self.min_temp_6hr))
         if self.max_temp_24hr:
-            lines.append("24-hour max temp: %s" % str(self.max_temp_24hr))
+            lines.append("24-hour Max Temp: %s" % str(self.max_temp_24hr))
         if self.max_temp_24hr:
-            lines.append("24-hour min temp: %s" % str(self.min_temp_24hr))
+            lines.append("24-hour Min Temp: %s" % str(self.min_temp_24hr))
         if self.precip_1hr:
-            lines.append("1-hour precipitation: %s" % str(self.precip_1hr))
+            lines.append("1-hour Precipitation: %s" % str(self.precip_1hr))
         if self.precip_3hr:
-            lines.append("3-hour precipitation: %s" % str(self.precip_3hr))
+            lines.append("3-hour Precipitation: %s" % str(self.precip_3hr))
         if self.precip_6hr:
-            lines.append("6-hour precipitation: %s" % str(self.precip_6hr))
+            lines.append("6-hour Precipitation: %s" % str(self.precip_6hr))
         if self.precip_24hr:
-            lines.append("24-hour precipitation: %s" % str(self.precip_24hr))
+            lines.append("24-hour Precipitation: %s" % str(self.precip_24hr))
         if self.ice_accretion_1hr:
             lines.append("1-hour Ice Accretion: %s" % str(self.ice_accretion_1hr))
         if self.ice_accretion_3hr:
@@ -1136,11 +1137,10 @@ class Metar(object):
         if self.ice_accretion_6hr:
             lines.append("6-hour Ice Accretion: %s" % str(self.ice_accretion_6hr))
         if self._remarks:
-            lines.append("remarks:")
+            lines.append("Remarks:")
             lines.append("- " + self.remarks("\n- "))
         if self._unparsed_remarks:
             lines.append("- " + " ".join(self._unparsed_remarks))
-        lines.append("METAR: " + self.code)
         return "\n".join(lines)
 
     def report_type(self):
@@ -1180,12 +1180,12 @@ class Metar(object):
                 text = "variable at %s" % wind_speed
             elif self.wind_dir_from:
                 text = "%s to %s at %s" % (
-                    self.wind_dir_from.compass(),
-                    self.wind_dir_to.compass(),
+                    self.wind_dir_from,
+                    self.wind_dir_to,
                     wind_speed,
                 )
             else:
-                text = "%s at %s" % (self.wind_dir.compass(), wind_speed)
+                text = "%s at %s" % (self.wind_dir, wind_speed)
             if self.wind_gust:
                 text += ", gusting to %s" % self.wind_gust.string(units)
         return text
@@ -1205,7 +1205,7 @@ class Metar(object):
             if not self.wind_dir_peak:
                 text = wind_speed
             else:
-                text = "%s at %s" % (self.wind_dir_peak.compass(), wind_speed)
+                text = "%s at %s" % (self.wind_dir_peak, wind_speed)
                 if self.peak_wind_time is not None:
                     text += " at %s" % self.peak_wind_time.strftime("%H:%M")
         return text
