@@ -30,7 +30,6 @@ class ParserError(Exception):
 
     pass
 
-
 # regular expressions to decode various groups of the METAR code
 MISSING_RE = re.compile(r"^[M/]+$")
 
@@ -1107,13 +1106,13 @@ class Metar(object):
         if self.runway:
             lines.append("Visual Range: %s" % self.runway_visual_range())
         if self.press:
-            lines.append("Pressure: %s" % self.press.string("in"))
+            lines.append("Pressure: %s" % self.press.string("in") + " ("+self.press.string("mb")+ ")")
         if self.weather:
             lines.append("Weather: %s" % self.present_weather())
         if self.sky:
             lines.append("Sky: %s" % self.sky_conditions("\n     "))
         if self.press_sea_level:
-            lines.append("Sea-level Pressure: %s" % self.press_sea_level.string("in"))
+            lines.append("Sea-level Pressure: %s" % self.press_sea_level.string("in") + " ("+self.press_sea_level.string("mb")+ ")" )
         if self.max_temp_6hr:
             lines.append("6-hour Max Temp: %s" % str(self.max_temp_6hr))
         if self.max_temp_6hr:
